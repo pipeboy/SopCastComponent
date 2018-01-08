@@ -36,6 +36,8 @@ public abstract class Effect {
     private int maTexCoordHandle    = -1;
     private int muPosMtxHandle      = -1;
     private int muTexMtxHandle      = -1;
+    private int muTexelWOffsetHandle = -1;
+    private int muTexelHOffsetHandle = -1;
 
     private final int[]       mFboId  = new int[]{0};
     private final int[]       mRboId  = new int[]{0};
@@ -87,6 +89,12 @@ public abstract class Effect {
 
     protected void loadOtherParams() {
         //do nothing
+        loadGBParams();
+    }
+
+    private void loadGBParams() {
+        muTexelWOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelWidthOffset");
+        muTexelHOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelHeightOffset");
     }
 
     private void initSize() {
