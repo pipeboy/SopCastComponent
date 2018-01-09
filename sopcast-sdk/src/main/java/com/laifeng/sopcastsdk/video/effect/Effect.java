@@ -88,13 +88,28 @@ public abstract class Effect {
     }
 
     protected void loadOtherParams() {
-        //do nothing
         loadGBParams();
     }
 
     private void loadGBParams() {
+        //提取变量
+
+        // TODO: 2018/1/9 初始化texelOffset
+        initTexelOffsets();
+    }
+
+    private void initTexelOffsets() {
+        // TODO: 2018/1/9 initTexelOffsets
         muTexelWOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelWidthOffset");
         muTexelHOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelHeightOffset");
+        //注意并发问题mWidth
+        setFloat(muTexelWOffsetHandle, 1f/mWidth);
+        setFloat(muTexelHOffsetHandle, 0);
+
+        muTexelWOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelWidthOffset");
+        muTexelHOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelHeightOffset");
+        setFloat(muTexelWOffsetHandle, 0);
+        setFloat(muTexelHOffsetHandle, 1f/mHeight);
     }
 
     private void initSize() {
@@ -184,6 +199,7 @@ public abstract class Effect {
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
         GLES20.glUseProgram(mProgram);
+
         runPendingOnDrawTasks();
 
         mVtxBuf.position(0);
@@ -201,6 +217,9 @@ public abstract class Effect {
 
         if(muTexMtxHandle>= 0)
             GLES20.glUniformMatrix4fv(muTexMtxHandle, 1, false, tex_mtx, 0);
+
+        // TODO: 2018/1/9 在use之后才能传值
+//        initTexelOffsets();
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mTextureId);
