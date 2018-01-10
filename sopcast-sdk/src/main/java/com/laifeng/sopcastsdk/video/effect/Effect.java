@@ -1,17 +1,14 @@
 package com.laifeng.sopcastsdk.video.effect;
 
-import android.content.Context;
 import android.graphics.PointF;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 import android.text.TextUtils;
 
 import com.laifeng.sopcastsdk.camera.CameraData;
 import com.laifeng.sopcastsdk.camera.CameraHolder;
 import com.laifeng.sopcastsdk.constant.SopCastConstant;
 import com.laifeng.sopcastsdk.utils.SopCastLog;
-import com.laifeng.sopcastsdk.video.GLSLFileUtils;
 import com.laifeng.sopcastsdk.video.GlUtil;
 
 import java.nio.FloatBuffer;
@@ -170,7 +167,7 @@ public abstract class Effect {
         GlUtil.checkGlError("initFBO_E");
     }
 
-    public int getEffertedTextureId() {
+    public int getEffectedTextureId() {
         return mTexId[0];
     }
 
@@ -200,6 +197,7 @@ public abstract class Effect {
 
         GLES20.glUseProgram(mProgram);
 
+        //以链表的方式运行task
         runPendingOnDrawTasks();
 
         mVtxBuf.position(0);
@@ -222,6 +220,7 @@ public abstract class Effect {
 //        initTexelOffsets();
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        //这里mTextureId就指向camera生成的texture
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mTextureId);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);

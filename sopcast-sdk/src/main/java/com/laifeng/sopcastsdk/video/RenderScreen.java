@@ -51,7 +51,7 @@ public class RenderScreen {
         initGL();
     }
 
-    public void setSreenSize(int width, int height) {
+    public void setScreenSize(int width, int height) {
         mScreenW = width;
         mScreenH = height;
 
@@ -69,6 +69,7 @@ public class RenderScreen {
         }
     }
 
+    //YUV to RGB transform
     private void initCameraTexCoordBuffer() {
         int cameraWidth, cameraHeight;
         CameraData cameraData = CameraHolder.instance().getCameraData();

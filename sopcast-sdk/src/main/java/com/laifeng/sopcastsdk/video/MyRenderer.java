@@ -107,7 +107,7 @@ public class MyRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFram
             if (mRenderScreen == null) {
                 initScreenTexture();
             }
-            mRenderScreen.setSreenSize(width, height);
+            mRenderScreen.setScreenSize(width, height);
             if (mVideoConfiguration != null) {
                 mRenderScreen.setVideoSize(mVideoWidth, mVideoHeight);
             }
@@ -126,6 +126,8 @@ public class MyRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFram
                 updateSurface = false;
             }
         }
+
+        // TODO: 2018/1/10 在这里接入GPUImageFilter
         mEffect.draw(mTexMtx);
         if(mRenderScreen != null) {
             mRenderScreen.draw();
@@ -159,7 +161,7 @@ public class MyRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFram
     private void initScreenTexture() {
         mEffect.setTextureId(mSurfaceTextureId);
         mEffect.prepare();
-        mEffectTextureId = mEffect.getEffertedTextureId();
+        mEffectTextureId = mEffect.getEffectedTextureId();
         mRenderScreen = new RenderScreen(mEffectTextureId);
     }
 
@@ -232,7 +234,7 @@ public class MyRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFram
         mEffect = effect;
         effect.setTextureId(mSurfaceTextureId);
         effect.prepare();
-        mEffectTextureId = effect.getEffertedTextureId();
+        mEffectTextureId = effect.getEffectedTextureId();
         if(mRenderScreen != null) {
             mRenderScreen.setTextureId(mEffectTextureId);
         }
