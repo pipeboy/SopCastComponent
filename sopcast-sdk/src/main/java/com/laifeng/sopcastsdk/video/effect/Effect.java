@@ -33,15 +33,13 @@ public abstract class Effect {
     private int maTexCoordHandle    = -1;
     private int muPosMtxHandle      = -1;
     private int muTexMtxHandle      = -1;
-    private int muTexelWOffsetHandle = -1;
-    private int muTexelHOffsetHandle = -1;
 
     private final int[]       mFboId  = new int[]{0};
     private final int[]       mRboId  = new int[]{0};
     private final int[]       mTexId  = new int[]{0};
 
-    private int mWidth  = -1;
-    private int mHeight = -1;
+    protected int mWidth  = -1;
+    protected int mHeight = -1;
     private float mAngle = 270;
 
     private final LinkedList<Runnable> mRunOnDraw;
@@ -58,8 +56,8 @@ public abstract class Effect {
     }
 
     public void prepare() {
-        loadShaderAndParams(mVertex, mFragment);
         initSize();
+        loadShaderAndParams(mVertex, mFragment);
         createEffectTexture();
     }
 
@@ -84,30 +82,11 @@ public abstract class Effect {
         GlUtil.checkGlError("initSH_E");
     }
 
-    protected void loadOtherParams() {
-        loadGBParams();
+    public int getProgram() {
+        return mProgram;
     }
 
-    private void loadGBParams() {
-        //提取变量
-
-        // TODO: 2018/1/9 初始化texelOffset
-        initTexelOffsets();
-    }
-
-    private void initTexelOffsets() {
-        // TODO: 2018/1/9 initTexelOffsets
-        muTexelWOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelWidthOffset");
-        muTexelHOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelHeightOffset");
-        //注意并发问题mWidth
-        setFloat(muTexelWOffsetHandle, 1f/mWidth);
-        setFloat(muTexelHOffsetHandle, 0);
-
-        muTexelWOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelWidthOffset");
-        muTexelHOffsetHandle = GLES20.glGetUniformLocation(mProgram, "texelHeightOffset");
-        setFloat(muTexelWOffsetHandle, 0);
-        setFloat(muTexelHOffsetHandle, 1f/mHeight);
-    }
+    protected void loadOtherParams() {}
 
     private void initSize() {
         if(CameraHolder.instance().getState() != CameraHolder.State.PREVIEW) {

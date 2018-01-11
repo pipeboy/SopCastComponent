@@ -1,4 +1,3 @@
-#version 120
 #extension GL_OES_EGL_image_external : require
 uniform samplerExternalOES inputImageTexture;
 const lowp int GAUSSIAN_SAMPLES = 9;
@@ -8,7 +7,7 @@ varying highp vec2 blurCoordinates[GAUSSIAN_SAMPLES];
 
 void main() {
     lowp vec3 sum = vec3(0.0);
-    fragColor = texture2D(inputImageTexture,textureCoordinate);
+    lowp vec4 fragColor = texture2D(inputImageTexture,textureCoordinate);
 
     sum += texture2D(inputImageTexture, blurCoordinates[0]).rgb * 0.05;
     sum += texture2D(inputImageTexture, blurCoordinates[1]).rgb * 0.09;

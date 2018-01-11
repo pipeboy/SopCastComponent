@@ -30,8 +30,10 @@ import com.laifeng.sopcastsdk.stream.packer.rtmp.RtmpPacker;
 import com.laifeng.sopcastsdk.stream.sender.rtmp.RtmpSender;
 import com.laifeng.sopcastsdk.ui.CameraLivingView;
 import com.laifeng.sopcastsdk.utils.SopCastLog;
+import com.laifeng.sopcastsdk.video.effect.GaussianBlur;
 import com.laifeng.sopcastsdk.video.effect.GrayEffect;
 import com.laifeng.sopcastsdk.video.effect.NullEffect;
+import com.laifeng.sopcastsdk.video.effect.Saturation;
 
 import static com.laifeng.sopcastsdk.constant.SopCastConstant.TAG;
 
@@ -44,7 +46,9 @@ public class LandscapeActivity extends Activity {
     private MultiToggleImageButton mFocusBtn;
     private GestureDetector mGestureDetector;
     private GrayEffect mGrayEffect;
+    private Saturation mSaturation;
     private NullEffect mNullEffect;
+    private GaussianBlur mGaussianBlurEffect;
     private ImageButton mRecordBtn;
     private boolean isGray;
     private boolean isRecording;
@@ -69,6 +73,9 @@ public class LandscapeActivity extends Activity {
     private void initEffects() {
         mGrayEffect = new GrayEffect(this);
         mNullEffect = new NullEffect(this);
+        mGaussianBlurEffect = new GaussianBlur(this);
+        mSaturation = new Saturation(this);
+
     }
 
     private void initViews() {
@@ -108,7 +115,7 @@ public class LandscapeActivity extends Activity {
                     mLFLiveView.setEffect(mNullEffect);
                     isGray = false;
                 } else {
-                    mLFLiveView.setEffect(mGrayEffect);
+                    mLFLiveView.setEffect(mGaussianBlurEffect);
                     isGray = true;
                 }
             }
