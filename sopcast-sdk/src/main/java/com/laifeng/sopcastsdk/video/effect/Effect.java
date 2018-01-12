@@ -3,6 +3,7 @@ package com.laifeng.sopcastsdk.video.effect;
 import android.graphics.PointF;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
+import android.opengl.Matrix;
 import android.text.TextUtils;
 
 import com.laifeng.sopcastsdk.camera.CameraData;
@@ -25,7 +26,9 @@ import java.util.LinkedList;
  */
 public abstract class Effect {
     private final FloatBuffer mVtxBuf = GlUtil.createSquareVtx();
+//    private final FloatBuffer mTexBuf = GlUtil.createReversedSquareVtx();
     private final float[]     mPosMtx = GlUtil.createIdentityMtx();
+    private final float[] m1PosMtx = GlUtil.createReversedMtx();
 
     protected int mTextureId = -1;
     private int mProgram            = -1;
@@ -176,7 +179,6 @@ public abstract class Effect {
 
         GLES20.glUseProgram(mProgram);
 
-        //以链表的方式运行task
         runPendingOnDrawTasks();
 
         mVtxBuf.position(0);
@@ -194,9 +196,6 @@ public abstract class Effect {
 
         if(muTexMtxHandle>= 0)
             GLES20.glUniformMatrix4fv(muTexMtxHandle, 1, false, tex_mtx, 0);
-
-        // TODO: 2018/1/9 在use之后才能传值
-//        initTexelOffsets();
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         //这里mTextureId就指向camera生成的texture

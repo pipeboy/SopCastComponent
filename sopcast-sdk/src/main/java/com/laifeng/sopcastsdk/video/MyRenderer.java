@@ -2,6 +2,7 @@ package com.laifeng.sopcastsdk.video;
 
 import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -127,8 +128,8 @@ public class MyRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFram
             }
         }
 
-        // TODO: 2018/1/10 在这里接入GPUImageFilter
         mEffect.draw(mTexMtx);
+        // TODO: 2018/1/12 根据不同的情况反转相机
         if(mRenderScreen != null) {
             mRenderScreen.draw();
         }

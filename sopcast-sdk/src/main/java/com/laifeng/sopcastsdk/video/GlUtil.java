@@ -30,6 +30,22 @@ public class GlUtil {
 		return fb;
 	}
 
+	public static FloatBuffer createReversedSquareVtx() {
+		final float vtx[] = {
+				// XYZ, UV
+				1f,  -1f, 0f, 0f, 1f,
+				1f,   1f, 0f, 0f, 0f,
+				-1f, -1f, 0f, 1f, 1f,
+				-1f,  1f, 0f, 1f, 0f,
+		};
+		ByteBuffer bb = ByteBuffer.allocateDirect(4 * vtx.length);
+		bb.order(ByteOrder.nativeOrder());
+		FloatBuffer fb = bb.asFloatBuffer();
+		fb.put(vtx);
+		fb.position(0);
+		return fb;
+	}
+
 	public static FloatBuffer createVertexBuffer() {
 		final float vtx[] = {
 				// XYZ
@@ -65,6 +81,12 @@ public class GlUtil {
 	public static float[] createIdentityMtx() {
 		float[] m = new float[16];
 		Matrix.setIdentityM(m, 0);
+		return m;
+	}
+
+	public static float[] createReversedMtx() {
+		float[] m = new float[16];
+		Matrix.scaleM(m, 0, 0.5f, 0.5f, 0);
 		return m;
 	}
 
