@@ -11,9 +11,9 @@ varying vec2 textureCoordinate;
 varying vec2 blurCoordinates[GAUSSIAN_SAMPLES];
 
 void main() {
-    gl_Position = position;
+    gl_Position = uPosMtx * position;
 
-    textureCoordinate = inputTextureCoordinate.xy;
+    textureCoordinate = (uTexMtx * inputTextureCoordinate).xy;
 
     int multiplier = 0;
     vec2 blurStep;
@@ -22,6 +22,6 @@ void main() {
         multiplier = (i - ((GAUSSIAN_SAMPLES - 1) / 2));
 
         blurStep = float(multiplier) * singleStepOffset;
-        blurCoordinates[i] = inputTextureCoordinate.xy + blurStep;
+        blurCoordinates[i] = (uTexMtx * inputTextureCoordinate).xy + blurStep;
     }
 }

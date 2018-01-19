@@ -26,7 +26,7 @@ public class BilateralFilter extends Effect{
         int singleStepOffsetHandle = GLES20.glGetUniformLocation(getProgram(), "singleStepOffset");
         int distanceNormalizationFactorHandle = GLES20.glGetUniformLocation(getProgram(), "distanceNormalizationFactor");
 
-        setFloat(distanceNormalizationFactorHandle, 15.0f);
-        setFloatVec2(singleStepOffsetHandle, new float[] {-15.0f / mWidth,-15.0f / mHeight});
+        setFloat(distanceNormalizationFactorHandle, 3.5f);
+        setFloatVec2(singleStepOffsetHandle, new float[] {15.0f / mWidth,15.0f / mHeight});
     }
 }

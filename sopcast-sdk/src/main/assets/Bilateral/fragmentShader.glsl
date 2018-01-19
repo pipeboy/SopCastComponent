@@ -15,6 +15,7 @@ void main() {
     lowp float distanceFromCentralColor;
     lowp float gaussianWeight;
 
+//    centralColor = texture2D(inputImageTexture, textureCoordinate);
     centralColor = texture2D(inputImageTexture, blurCoordinates[4]);
     gaussianWeightTotal = 0.18;
     sum = centralColor * 0.18;
@@ -67,5 +68,6 @@ void main() {
     gaussianWeightTotal += gaussianWeight;
     sum += sampleColor * gaussianWeight;
     gl_FragColor = sum / gaussianWeightTotal;
+//    gl_FragColor = centralColor;
 
 }
